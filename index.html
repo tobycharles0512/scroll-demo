@@ -481,30 +481,6 @@ footer p{font-size:.72rem;color:var(--dim)}
     <p>Real websites and platforms for real businesses — from Caribbean restaurant sites to full web apps. Click any card to preview live.</p>
   </div>
   <div class="port-grid">
-    <div class="port-card tilt" id="pc1" onclick="openPreview('hummingbird')">
-      <div class="port-preview" id="prev-humming"></div>
-      <div class="port-info">
-        <div class="port-type">Restaurant &middot; Caribbean &amp; Southern Fried</div>
-        <h3>Hummingbird, Sherborne</h3>
-        <p>A vibrant Caribbean-energy website with floating 3D elements, filterable menu, auto-scrolling reviews and that island vibe.</p>
-        <div class="port-tags">
-          <span class="ptag pt1">3D Interactive</span><span class="ptag pt2">Menu System</span>
-          <span class="ptag pt3">Review Carousel</span><span class="ptag pt4">Mobile First</span>
-        </div>
-      </div>
-    </div>
-    <div class="port-card tilt" id="pc2" onclick="openPreview('macreadys')">
-      <div class="port-preview" id="prev-macreadys"></div>
-      <div class="port-info">
-        <div class="port-type">Restaurant &middot; Modern British Fine Dining</div>
-        <h3>Macready's at The Sherborne</h3>
-        <p>An elegant, refined site for a Grade I Georgian landmark. Subtle 3D tilt effects, OpenTable booking and understated luxury.</p>
-        <div class="port-tags">
-          <span class="ptag pt1">3D Tilt Effects</span><span class="ptag pt2">Booking Integration</span>
-          <span class="ptag pt3">Review System</span><span class="ptag pt4">Responsive</span>
-        </div>
-      </div>
-    </div>
     <div class="port-card tilt" id="pc3" onclick="openPreview('partico')">
       <div class="prem-badge">✦ Premium Build</div>
       <div class="port-preview">
@@ -521,6 +497,21 @@ footer p{font-size:.72rem;color:var(--dim)}
         <div class="port-tags">
           <span class="ptag pt1">Web App</span><span class="ptag pt2">Custom Platform</span>
           <span class="ptag pt3">Modern UI/UX</span><span class="ptag pt5">Premium Build</span>
+        </div>
+      </div>
+    </div>
+    <div class="port-card tilt" id="pc1" onclick="openPreview('forge')">
+      <div class="prem-badge">✦ Premium Build</div>
+      <div class="port-preview">
+        <div class="forge-bg" style="background:linear-gradient(135deg, #2d1810 0%, #4a2f1f 100%);display:flex;align-items:center;justify-content:center;color:#d4af37;font-size:3rem;font-weight:bold;">The Forge</div>
+      </div>
+      <div class="port-info">
+        <div class="port-type">Property Showcase &middot; Real Estate</div>
+        <h3>The Forge Somerset</h3>
+        <p>A premium residential property website featuring interactive galleries, smooth animations, and an elegant design for showcasing luxury homes.</p>
+        <div class="port-tags">
+          <span class="ptag pt1">Real Estate</span><span class="ptag pt2">Property Showcase</span>
+          <span class="ptag pt3">Interactive Design</span><span class="ptag pt5">Premium Build</span>
         </div>
       </div>
     </div>
@@ -1046,13 +1037,6 @@ document.querySelectorAll('.tilt').forEach(el=>{
 });
 
 /* ══ PORTFOLIO PREVIEWS ══ */
-function loadPreviews(){
-  const h=document.getElementById('prev-humming');
-  const m=document.getElementById('prev-macreadys');
-  if(h){const i=document.createElement('iframe');i.src='hummingbird-website.html';i.loading='lazy';i.title='Hummingbird Preview';h.appendChild(i)}
-  if(m){const i=document.createElement('iframe');i.src='macreadys-website.html';i.loading='lazy';i.title="Macready's Preview";m.appendChild(i)}
-}
-loadPreviews();
 
 function openPreview(site){
   const modal=document.getElementById('prevModal');
@@ -1064,10 +1048,13 @@ function openPreview(site){
     const fb=document.createElement('div');fb.className='partico-fallback';
     fb.innerHTML='<h3>partico<span style="color:var(--neon)">.</span>app</h3><p>External sites open in a new tab.</p><a href="https://partico.app" target="_blank" rel="noopener">Visit partico.app ↗</a>';
     inner.appendChild(fb);
-  } else {
+  } else if(site==='forge'){
     frame.style.display='block';
-    const ex=inner.querySelector('.partico-fallback');if(ex)ex.remove();
-    frame.src=site==='hummingbird'?'hummingbird-website.html':'macreadys-website.html';
+    const ex=inner.querySelector('.forge-fallback');if(ex)ex.remove();
+    frame.src='https://the-forge-somerset.vercel.app/';
+    const fb=document.createElement('div');fb.className='forge-fallback';
+    fb.innerHTML='<a href="https://the-forge-somerset.vercel.app/" target="_blank" rel="noopener" style="position:absolute;top:20px;right:20px;padding:10px 20px;background:var(--neon);color:var(--dark);text-decoration:none;border-radius:4px;font-weight:600;z-index:10;">Visit Full Site ↗</a>';
+    inner.appendChild(fb);
   }
   modal.classList.add('open');document.body.style.overflow='hidden';
 }
