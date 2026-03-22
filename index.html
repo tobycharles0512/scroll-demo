@@ -180,10 +180,10 @@ nav.scrolled{background:rgba(7,7,14,.94);backdrop-filter:blur(30px);border-botto
 .cap-card:nth-child(5) .cap-bar{background:var(--orange)}.cap-card:nth-child(6) .cap-bar{background:var(--neon)}
 
 /* ── PRICING ── */
-#pricing{padding:9rem 8%;background:var(--bg);overflow:hidden}
+#pricing{padding:10rem 8% 12rem;background:var(--bg);overflow:hidden}
 .pricing-header{max-width:700px;margin:0 auto 4.5rem;text-align:center}
 .pricing-header p{font-size:.92rem;color:var(--dim);line-height:1.8;font-weight:300;margin-top:1rem}
-.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1150px;margin:0 auto;align-items:start}
+.pricing-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2.5rem;max-width:900px;margin:0 auto;align-items:start}
 @media(max-width:950px){.pricing-grid{grid-template-columns:1fr}}
 .p-card{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:2.5rem 2rem;position:relative;overflow:hidden;transition:border-color .4s;will-change:transform,opacity}
 .p-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px}
@@ -501,7 +501,6 @@ footer p{font-size:.72rem;color:var(--dim)}
       </div>
     </div>
     <div class="port-card tilt" id="pc1" onclick="openPreview('forge')">
-      <div class="prem-badge">✦ Premium Build</div>
       <div class="port-preview">
         <iframe src="https://the-forge-somerset.vercel.app/" style="width:100%;height:100%;border:none;border-radius:8px;pointer-events:none;" loading="lazy"></iframe>
       </div>
@@ -554,7 +553,8 @@ footer p{font-size:.72rem;color:var(--dim)}
     <div class="sec-line c"></div>
     <p>Every business is different — these are starting points. All sites include responsive design, interactive elements, SEO basics and post-launch support. <strong style="color:var(--text)">Prices may change</strong> — get in touch for a tailored quote.</p>
   </div>
-  <div class="pricing-grid" style="max-width:1150px;margin:0 auto">
+  <div class="pricing-header-sub" style="text-align:center;margin:40px 0 60px;max-width:800px;margin-left:auto;margin-right:auto"><h3 style="color:var(--text);font-size:1.4rem;margin-bottom:12px;letter-spacing:1px">WEBSITE BUILD PACKAGE</h3><p style="color:var(--sub);font-size:0.95rem">One-time investment for your website</p></div>
+  <div class="pricing-grid" style="max-width:1150px;margin:0 auto;margin-bottom:80px">
 
     <!-- STARTER -->
     <div class="p-card" id="priceC1">
@@ -595,8 +595,53 @@ footer p{font-size:.72rem;color:var(--dim)}
       <a href="#endcta" class="p-btn">Let's Talk</a>
     </div>
 
-
   </div>
+
+  <!-- PREMIUM BUILDS SECTION -->
+  <div style="margin-top:120px;padding-top:120px;border-top:1px solid rgba(255,255,255,.1)">
+    <div class="pricing-header-sub" style="text-align:center;margin:0 0 60px;max-width:800px;margin-left:auto;margin-right:auto"><h3 style="color:var(--text);font-size:1.4rem;margin-bottom:12px;letter-spacing:1px">PREMIUM 3D &amp; INTERACTIVE BUILDS</h3><p style="color:var(--sub);font-size:0.95rem">Custom immersive experiences with advanced features</p></div>
+    <div class="pricing-grid" style="margin-bottom:0">
+      <div class="p-card" id="priceC3">
+        <div class="pop-badge">Enterprise</div>
+        <div class="p-tier">Full Experience</div>
+        <div class="p-name">Bespoke Creation</div>
+        <div class="p-price">£5,000<small>+ custom</small></div>
+        <div class="p-sub">For brands needing a fully custom, one-of-a-kind digital experience</div>
+        <ul class="p-features">
+          <li>Unlimited pages &amp; sections</li>
+          <li>Full 3D WebGL environments</li>
+          <li>Advanced interactive animations</li>
+          <li>Custom booking / e-commerce systems</li>
+          <li>API integrations (CRM, analytics, etc.)</li>
+          <li>Advanced SEO &amp; performance optimization</li>
+          <li>90-day post-launch support</li>
+          <li>6+ rounds of revisions</li>
+          <li class="plus">Delivery: 6–10 weeks</li>
+        </ul>
+        <a href="#endcta" class="p-btn">Get in Touch</a>
+      </div>
+
+      <div class="p-card" id="priceC4">
+        <div class="p-tier">Scalable</div>
+        <div class="p-name">Growth Platform</div>
+        <div class="p-price">£3,500<small>+ one-off</small></div>
+        <div class="p-sub">Perfect for growing brands ready to scale with advanced tech</div>
+        <ul class="p-features">
+          <li>Up to 15 pages with advanced modules</li>
+          <li>3D interactive elements &amp; animations</li>
+          <li>Advanced product filtering &amp; search</li>
+          <li>Multi-language support ready</li>
+          <li>Analytics dashboard integration</li>
+          <li>Conversion rate optimization</li>
+          <li>Extended post-launch support (90 days)</li>
+          <li>5 rounds of revisions</li>
+          <li class="plus">Delivery: 4–6 weeks</li>
+        </ul>
+        <a href="#endcta" class="p-btn">Let's Build</a>
+      </div>
+    </div>
+  </div>
+
 </section>
 
 <!-- ════════════════════════════
