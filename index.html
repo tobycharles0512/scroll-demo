@@ -266,8 +266,6 @@ nav.scrolled{background:rgba(7,7,14,.94);backdrop-filter:blur(30px);border-botto
 .feat-example{font-size:.8rem;color:rgba(0,255,136,.6);padding:.8rem 1rem;background:rgba(0,255,136,.05);border-left:3px solid var(--neon);border-radius:6px;font-family:'Space Mono',monospace}
 .feat-card.social .feat-example{background:rgba(0,255,136,.05);border-left-color:var(--neon)}
 .feat-card.video .feat-example{background:rgba(124,108,240,.05);border-left-color:var(--electric)}
-.feat-card.banner .feat-example{background:rgba(255,170,80,.05);border-left-color:var(--orange)}
-.feat-card.events .feat-example{background:rgba(255,107,174,.05);border-left-color:var(--pink)}
 .feat-card.blog .feat-example{background:rgba(0,222,255,.05);border-left-color:var(--cyan)}
 .feat-card.testimonials .feat-example{background:rgba(0,255,136,.05);border-left-color:var(--neon)}
 .feat-card.team .feat-example{background:rgba(124,108,240,.05);border-left-color:var(--electric)}
@@ -591,22 +589,6 @@ footer p{font-size:.72rem;color:var(--dim)}
         <div class="feat-example">Cinematic video backgrounds with custom play buttons & analytics tracking</div>
       </div>
 
-      <!-- SEASONAL BANNERS -->
-      <div class="feat-card banner" id="fc3">
-        <span class="feat-icon">🎉</span>
-        <h3>Promotional Banners</h3>
-        <p>Time-based banners for seasonal offers, holiday specials, or flash sales. Show/hide automatically or manage manually from a simple dashboard.</p>
-        <div class="feat-example">Easter special banner shows automatically March-April, then disappears</div>
-      </div>
-
-      <!-- EVENTS -->
-      <div class="feat-card events" id="fc4">
-        <span class="feat-icon">📅</span>
-        <h3>Events & Announcements</h3>
-        <p>Display upcoming events, webinars, or announcements with countdown timers. Integrate with calendar systems or booking platforms like Calendly.</p>
-        <div class="feat-example">Live countdown: "Spring workshop launching in 5 days" with ticket sales link</div>
-      </div>
-
       <!-- BLOG -->
       <div class="feat-card blog" id="fc5">
         <span class="feat-icon">📝</span>
@@ -661,8 +643,6 @@ footer p{font-size:.72rem;color:var(--dim)}
         <li>Google Maps embed</li>
         <li>Social media feed integration (Instagram/LinkedIn)</li>
         <li>Video integration (YouTube, Vimeo)</li>
-        <li>Promotional banners (seasonal/flash sales)</li>
-        <li>Event announcements &amp; countdown timers</li>
         <li>Blog &amp; news section</li>
         <li>Testimonials carousel</li>
         <li>Team member profiles</li>
@@ -1052,11 +1032,9 @@ gsap.utils.toArray('.cap-card').forEach((c,i)=>{
 gsap.from('#featHead',{y:60,opacity:0,duration:.9,ease:'power3.out',scrollTrigger:{trigger:'#features-showcase',start:'top 75%'}});
 gsap.from('#fc1',{x:-100,opacity:0,duration:.9,ease:'power3.out',scrollTrigger:{trigger:'#features-showcase',start:'top 65%'}});
 gsap.from('#fc2',{y:100,opacity:0,duration:.9,delay:.1,ease:'power3.out',scrollTrigger:{trigger:'#features-showcase',start:'top 65%'}});
-gsap.from('#fc3',{x:100,opacity:0,duration:.9,delay:.2,ease:'power3.out',scrollTrigger:{trigger:'#features-showcase',start:'top 65%'}});
-gsap.from('#fc4',{x:-100,opacity:0,duration:.9,delay:.3,ease:'power3.out',scrollTrigger:{trigger:'#features-showcase',start:'top 65%'}});
-gsap.from('#fc5',{y:100,opacity:0,duration:.9,delay:.4,ease:'power3.out',scrollTrigger:{trigger:'#features-showcase',start:'top 65%'}});
-gsap.from('#fc6',{x:100,opacity:0,duration:.9,delay:.5,ease:'power3.out',scrollTrigger:{trigger:'#features-showcase',start:'top 65%'}});
-gsap.from('#fc7',{y:100,opacity:0,duration:.9,delay:.6,ease:'power3.out',scrollTrigger:{trigger:'#features-showcase',start:'top 65%'}});
+gsap.from('#fc5',{y:100,opacity:0,duration:.9,delay:.2,ease:'power3.out',scrollTrigger:{trigger:'#features-showcase',start:'top 65%'}});
+gsap.from('#fc6',{x:100,opacity:0,duration:.9,delay:.3,ease:'power3.out',scrollTrigger:{trigger:'#features-showcase',start:'top 65%'}});
+gsap.from('#fc7',{y:100,opacity:0,duration:.9,delay:.4,ease:'power3.out',scrollTrigger:{trigger:'#features-showcase',start:'top 65%'}});
 
 /* ══ PRICING ══ */
 gsap.from('#pricingHead',{y:60,opacity:0,duration:.9,ease:'power3.out',scrollTrigger:{trigger:'#pricing',start:'top 75%'}});
