@@ -183,7 +183,7 @@ nav.scrolled{background:rgba(7,7,14,.94);backdrop-filter:blur(30px);border-botto
 #pricing{padding:10rem 8% 12rem;background:var(--bg);overflow:hidden}
 .pricing-header{max-width:700px;margin:0 auto 4.5rem;text-align:center}
 .pricing-header p{font-size:.92rem;color:var(--dim);line-height:1.8;font-weight:300;margin-top:1rem}
-.pricing-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2.5rem;max-width:900px;margin:0 auto;align-items:start}
+.pricing-grid{display:grid;grid-template-columns:1fr;gap:2.5rem;max-width:550px;margin:0 auto;align-items:start}
 @media(max-width:950px){.pricing-grid{grid-template-columns:1fr}}
 .p-card{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:2.5rem 2rem;position:relative;overflow:hidden;transition:border-color .4s;will-change:transform,opacity}
 .p-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px}
@@ -675,29 +675,9 @@ footer p{font-size:.72rem;color:var(--dim)}
       <a href="#endcta" class="p-btn">Get Started</a>
     </div>
 
-    <!-- GROWTH -->
-    <div class="p-card" id="priceC2">
-      <div class="pop-badge">Most Popular</div>
-      <div class="p-tier">Growth</div>
-      <div class="p-name">The Full Works</div>
-      <div class="p-price">£2,000<small>+ one-off</small></div>
-      <div class="p-sub">For restaurants &amp; businesses that want the full immersive 3D experience</div>
-      <ul class="p-features">
-        <li>Up to 10 pages with custom sections</li>
-        <li>Full 3D interactive design</li>
-        <li>Filterable menu / product system</li>
-        <li>Review carousel from Google / Tripadvisor</li>
-        <li>Booking integration (OpenTable, etc.)</li>
-        <li>60-day post-launch support</li>
-        <li>4 rounds of revisions</li>
-        <li class="plus">Delivery: 3–5 weeks</li>
-      </ul>
-      <a href="#endcta" class="p-btn">Let's Talk</a>
-    </div>
-
     <div class="pricing-note" style="margin-top:60px;padding:30px;background:rgba(124,108,240,0.08);border-radius:12px;max-width:800px;margin-left:auto;margin-right:auto;text-align:center;border-left:4px solid var(--neon)">
-      <h4 style="color:var(--text);margin-bottom:10px;font-size:1.1rem">Why Just These Two Plans?</h4>
-      <p style="color:var(--sub);font-size:0.95rem">We've found these options cover 95% of businesses. Offering too many plans creates confusion. If you need something outside these packages, we'll create a custom quote — no templates, just solutions built for you.</p>
+      <h4 style="color:var(--text);margin-bottom:10px;font-size:1.1rem">One Clear Package</h4>
+      <p style="color:var(--sub);font-size:0.95rem">No confusing plans. Just one honest package with everything you need to launch. Need something custom? Talk to us — we build solutions, not templates.</p>
     </div>
 
   </div>
@@ -1080,9 +1060,7 @@ gsap.from('#fc7',{y:100,opacity:0,duration:.9,delay:.6,ease:'power3.out',scrollT
 
 /* ══ PRICING ══ */
 gsap.from('#pricingHead',{y:60,opacity:0,duration:.9,ease:'power3.out',scrollTrigger:{trigger:'#pricing',start:'top 75%'}});
-gsap.from('#priceC1',{x:-150,rotation:-3,opacity:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:'#pricing',start:'top 65%'}});
-gsap.from('#priceC2',{y:100,scale:.92,opacity:0,duration:1,delay:.15,ease:'back.out(1.5)',scrollTrigger:{trigger:'#pricing',start:'top 65%'}});
-gsap.from('#priceC3',{x:150,rotation:3,opacity:0,duration:1,delay:.3,ease:'power3.out',scrollTrigger:{trigger:'#pricing',start:'top 65%'}});
+gsap.from('#priceC1',{y:80,scale:.95,opacity:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:'#pricing',start:'top 65%'}});
 
 /* ══ MAINTENANCE ══ */
 gsap.from('#maintHead',{y:60,opacity:0,duration:.9,ease:'power3.out',scrollTrigger:{trigger:'#maintenance',start:'top 75%'}});
