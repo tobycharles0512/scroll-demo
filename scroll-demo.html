@@ -161,24 +161,6 @@ nav.scrolled{background:rgba(7,7,14,.94);backdrop-filter:blur(30px);border-botto
 .partico-fallback a{background:var(--neon);color:var(--bg);padding:.8rem 2rem;border-radius:50px;font-weight:700;font-size:.82rem;text-decoration:none;transition:all .3s}
 .partico-fallback a:hover{box-shadow:var(--glow-g);transform:translateY(-2px)}
 
-/* ── CAPABILITIES ── */
-#capabilities{padding:9rem 8%;background:var(--bg);overflow:hidden}
-.cap-header{max-width:680px;margin:0 auto 5rem;text-align:center}
-.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1100px;margin:0 auto}
-@media(max-width:900px){.cap-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:560px){.cap-grid{grid-template-columns:1fr}}
-.cap-card{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:2.4rem 2rem;transition:border-color .4s;position:relative;overflow:hidden;will-change:transform,opacity}
-.cap-card:hover{border-color:rgba(0,255,136,.2)}
-.cap-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 35% 30%,rgba(0,255,136,.05),transparent 60%);opacity:0;transition:opacity .4s}
-.cap-card:hover::after{opacity:1}
-.cap-ic{font-size:2rem;display:block;margin-bottom:1.3rem}
-.cap-card h3{font-size:1.05rem;font-weight:700;margin-bottom:.6rem;letter-spacing:-.01em}
-.cap-card p{font-size:.82rem;color:var(--dim);line-height:1.75;font-weight:300}
-.cap-bar{width:28px;height:2px;border-radius:2px;margin-top:1.3rem}
-.cap-card:nth-child(1) .cap-bar{background:var(--neon)}.cap-card:nth-child(2) .cap-bar{background:var(--electric)}
-.cap-card:nth-child(3) .cap-bar{background:var(--pink)}.cap-card:nth-child(4) .cap-bar{background:var(--cyan)}
-.cap-card:nth-child(5) .cap-bar{background:var(--orange)}.cap-card:nth-child(6) .cap-bar{background:var(--neon)}
-
 /* ── PRICING ── */
 #pricing{padding:10rem 8% 12rem;background:var(--bg);overflow:hidden}
 .pricing-header{max-width:700px;margin:0 auto 4.5rem;text-align:center}
@@ -545,23 +527,6 @@ footer p{font-size:.72rem;color:var(--dim)}
     <iframe id="prevFrame" src="about:blank"></iframe>
   </div>
 </div>
-
-<!-- ════════════════════════════
-     CAPABILITIES
-════════════════════════════ -->
-<section id="capabilities">
-  <div class="cap-header" id="capHead">
-    <span class="sec-tag">// What We Bring</span>
-    <h2 class="sec-title">Everything your website actually needs.</h2>
-    <div class="sec-line c"></div>
-  </div>
-  <div class="cap-grid">
-    <div class="cap-card tilt"><span class="cap-ic">🧊</span><h3>3D Interactive Design</h3><p>Floating geometry, WebGL scenes, and tilt effects that bring your brand to life in three dimensions.</p><div class="cap-bar"></div></div>
-    <div class="cap-card tilt"><span class="cap-ic">⚡</span><h3>Scroll Animations</h3><p>Cinematic scroll-triggered reveals, parallax depth, and transitions that grab attention.</p><div class="cap-bar"></div></div>
-    <div class="cap-card tilt"><span class="cap-ic">📱</span><h3>Mobile First</h3><p>Every pixel designed for mobile from the start — no afterthought responsive fixes bolted on later.</p><div class="cap-bar"></div></div>
-    <div class="cap-card tilt"><span class="cap-ic">🔧</span><h3>Ongoing Support</h3><p>Updates from £5. Monthly plans from £50. Your site stays fresh without you lifting a finger.</p><div class="cap-bar"></div></div>
-  </div>
-</section>
 
 <!-- ════════════════════════════
      FEATURES SHOWCASE
@@ -1060,13 +1025,6 @@ gsap.from('#portHeader',{y:60,opacity:0,duration:.9,ease:'power3.out',scrollTrig
 gsap.from('#pc1',{x:-160,opacity:0,duration:.95,ease:'power3.out',scrollTrigger:{trigger:'#portfolio',start:'top 65%'}});
 gsap.from('#pc2',{y:120,opacity:0,duration:.95,delay:.12,ease:'power3.out',scrollTrigger:{trigger:'#portfolio',start:'top 65%'}});
 gsap.from('#pc3',{x:160,opacity:0,duration:.95,delay:.24,ease:'power3.out',scrollTrigger:{trigger:'#portfolio',start:'top 65%'}});
-
-/* ══ CAPABILITIES ══ */
-gsap.from('#capHead',{y:60,opacity:0,duration:.9,ease:'power3.out',scrollTrigger:{trigger:'#capabilities',start:'top 75%'}});
-const capDirs=[{x:-150,y:0},{x:0,y:-110},{x:150,y:0},{x:-150,y:0},{x:0,y:110},{x:150,y:0}];
-gsap.utils.toArray('.cap-card').forEach((c,i)=>{
-  gsap.from(c,{x:capDirs[i].x,y:capDirs[i].y,opacity:0,duration:.9,delay:i*.1,ease:'power3.out',scrollTrigger:{trigger:'#capabilities',start:'top 68%'}});
-});
 
 /* ══ FEATURES SHOWCASE ══ */
 gsap.from('#featHead',{y:60,opacity:0,duration:.9,ease:'power3.out',scrollTrigger:{trigger:'#features-showcase',start:'top 75%'}});
