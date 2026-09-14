@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Charles Digital — Built Different</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@200;300;400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -98,6 +101,7 @@ nav.scrolled{background:rgba(8,10,17,.72);backdrop-filter:blur(24px)}
 nav.scrolled::after{opacity:1}
 nav.hide{transform:translateY(-100%)}
 .nav-logo{font-family:'Space Mono',monospace;font-size:1rem;font-weight:700;color:var(--neon);text-decoration:none;display:flex;align-items:center;gap:.6rem}
+.nav-logo-mark{width:22px;height:22px;border-radius:6px;opacity:.95}
 .nav-logo .live{width:7px;height:7px;background:var(--neon);border-radius:50%;animation:lp 2s infinite}
 @keyframes lp{0%,100%{box-shadow:0 0 0 0 rgba(47,123,255,.5)}50%{box-shadow:0 0 0 8px rgba(47,123,255,0)}}
 .nav-links{display:flex;gap:2rem;list-style:none}
@@ -388,7 +392,7 @@ footer p{font-size:.72rem;color:var(--dim)}
 
 <!-- NAV -->
 <nav id="nav">
-  <a href="#hero" class="nav-logo"><span class="live"></span>Charles Digital</a>
+  <a href="#hero" class="nav-logo"><img src="logo-mark.png" alt="Charles Digital logo" class="nav-logo-mark"><span class="live"></span>Charles Digital</a>
   <ul class="nav-links">
     <li><a href="#portfolio">Work</a></li>
     <li><a href="#hscroll">Services</a></li>
