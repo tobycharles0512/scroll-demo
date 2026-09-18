@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Charles Digital — Bookings Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@200;300;400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --neon:#2F7BFF; --electric:#16C7AE; --bg:#0B0C12; --card:#14151C;
+  --text:#F4F6FB; --dim:#A7AFC4; --border:rgba(255,255,255,.12);
+}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.wrap{max-width:920px;margin:0 auto;padding:3rem 1.5rem}
+h1{font-size:1.6rem;font-weight:800;margin-bottom:.3rem}
+.sub{color:var(--dim);font-size:.85rem;margin-bottom:2rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.6rem;margin-bottom:1.6rem}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:1rem}
+label{display:block;font-size:.75rem;color:var(--dim);margin-bottom:.35rem;font-weight:500}
+input,textarea{width:100%;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:10px;padding:.7rem .9rem;color:var(--text);font-family:inherit;font-size:.9rem}
+input:focus,textarea:focus{outline:none;border-color:var(--neon)}
+.field{margin-bottom:1rem}
+.row{display:flex;gap:1rem;flex-wrap:wrap}
+.row .field{flex:1;min-width:140px}
+button{cursor:pointer;font-family:inherit}
+.btn{background:var(--neon);color:#fff;border:none;padding:.75rem 1.6rem;border-radius:50px;font-weight:700;font-size:.8rem;letter-spacing:.05em;text-transform:uppercase}
+.btn:hover{box-shadow:0 0 25px rgba(47,123,255,.35)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-danger{background:rgba(255,80,80,.14);color:#ffb3b3;border:1px solid rgba(255,80,80,.3);padding:.45rem 1rem;border-radius:50px;font-weight:600;font-size:.72rem;text-transform:uppercase}
+.btn-danger:hover{background:rgba(255,80,80,.22)}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--dim);padding:.45rem 1rem;border-radius:50px;font-size:.75rem}
+.msg{font-size:.85rem;padding:.8rem 1rem;border-radius:10px;margin-bottom:1rem}
+.msg.error{background:rgba(255,80,80,.12);border:1px solid rgba(255,80,80,.3);color:#ffb3b3}
+.msg.success{background:rgba(22,199,174,.12);border:1px solid rgba(22,199,174,.3);color:#8ff0dd}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th{text-align:left;color:var(--dim);font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;padding:.5rem .6rem;border-bottom:1px solid var(--border)}
+td{padding:.7rem .6rem;border-bottom:1px solid var(--border);vertical-align:top}
+.tag{display:inline-block;padding:.2rem .6rem;border-radius:20px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.tag.open{background:rgba(22,199,174,.14);color:#16C7AE}
+.tag.booked{background:rgba(47,123,255,.14);color:#2F7BFF}
+.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}
+#loginBox{max-width:380px;margin:6rem auto 0}
+.empty{color:var(--dim);font-size:.85rem;padding:1rem 0}
+</style>
+</head>
+<body>
+
+<div class="wrap" id="loginBox">
+  <div class="card">
+    <h2>Sign in</h2>
+    <div id="loginMsg"></div>
+    <form id="loginForm">
+      <div class="field">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" required autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn" id="loginBtn">Sign In</button>
+    </form>
+  </div>
+</div>
+
+<div class="wrap" id="appBox" style="display:none">
+  <div class="top-bar">
+    <div>
+      <h1>Bookings</h1>
+      <p class="sub">Charles Digital — manage consultation slots</p>
+    </div>
+    <button class="btn-ghost" id="logoutBtn">Sign Out</button>
+  </div>
+
+  <div class="card">
+    <h2>Add a new open slot</h2>
+    <div id="addMsg"></div>
+    <form id="addForm">
+      <div class="row">
+        <div class="field">
+          <label for="slotDate">Date</label>
+          <input type="date" id="slotDate" required>
+        </div>
+        <div class="field">
+          <label for="slotStart">Start time</label>
+          <input type="time" id="slotStart" required>
+        </div>
+        <div class="field">
+          <label for="slotEnd">End time</label>
+          <input type="time" id="slotEnd" required>
+        </div>
+      </div>
+      <button type="submit" class="btn" id="addBtn">Add Slot</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>All slots</h2>
+    <div id="slotsTableWrap"><p class="empty">Loading…</p></div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL='https://otezxkbcnrqkmbczpjlr.supabase.co';
+const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im90ZXp4a2JjbnJxa21iY3pwamxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk3MjAyNjksImV4cCI6MjEwNTI5NjI2OX0.Ndmc4iS29q7KNrU4Gq8OX_Mup5NElc3dtaxdFp2-ijo';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+
+const loginBox=document.getElementById('loginBox');
+const appBox=document.getElementById('appBox');
+const loginForm=document.getElementById('loginForm');
+const loginMsg=document.getElementById('loginMsg');
+const loginBtn=document.getElementById('loginBtn');
+const logoutBtn=document.getElementById('logoutBtn');
+const addForm=document.getElementById('addForm');
+const addMsg=document.getElementById('addMsg');
+const addBtn=document.getElementById('addBtn');
+const slotsTableWrap=document.getElementById('slotsTableWrap');
+
+function fmtDate(d){return new Date(d+'T00:00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'})}
+function fmtTime(t){return t.slice(0,5)}
+
+async function showApp(){
+  loginBox.style.display='none';
+  appBox.style.display='';
+  loadSlots();
+}
+function showLogin(){
+  loginBox.style.display='';
+  appBox.style.display='none';
+}
+
+loginForm.addEventListener('submit',async e=>{
+  e.preventDefault();
+  loginBtn.disabled=true;
+  loginMsg.innerHTML='';
+  const {error}=await sb.auth.signInWithPassword({
+    email:document.getElementById('loginEmail').value.trim(),
+    password:document.getElementById('loginPassword').value
+  });
+  loginBtn.disabled=false;
+  if(error){
+    loginMsg.innerHTML='<div class="msg error">'+error.message+'</div>';
+    return;
+  }
+  showApp();
+});
+
+logoutBtn.addEventListener('click',async()=>{
+  await sb.auth.signOut();
+  showLogin();
+});
+
+addForm.addEventListener('submit',async e=>{
+  e.preventDefault();
+  addBtn.disabled=true;
+  addMsg.innerHTML='';
+  const {error}=await sb.from('slots').insert({
+    date:document.getElementById('slotDate').value,
+    start_time:document.getElementById('slotStart').value,
+    end_time:document.getElementById('slotEnd').value,
+    status:'open'
+  });
+  addBtn.disabled=false;
+  if(error){
+    addMsg.innerHTML='<div class="msg error">'+error.message+'</div>';
+    return;
+  }
+  addForm.reset();
+  addMsg.innerHTML='<div class="msg success">Slot added.</div>';
+  loadSlots();
+});
+
+async function loadSlots(){
+  slotsTableWrap.innerHTML='<p class="empty">Loading…</p>';
+  const {data,error}=await sb.from('slots')
+    .select('*')
+    .order('date',{ascending:true})
+    .order('start_time',{ascending:true});
+
+  if(error){
+    slotsTableWrap.innerHTML='<p class="empty">Couldn\'t load slots: '+error.message+'</p>';
+    return;
+  }
+  if(!data||data.length===0){
+    slotsTableWrap.innerHTML='<p class="empty">No slots yet — add one above.</p>';
+    return;
+  }
+
+  const table=document.createElement('table');
+  table.innerHTML='<thead><tr><th>Date</th><th>Time</th><th>Status</th><th>Client</th><th></th></tr></thead>';
+  const tbody=document.createElement('tbody');
+  data.forEach(s=>{
+    const tr=document.createElement('tr');
+    const clientHtml=s.status==='booked'
+      ? `${s.client_name||''}<br><span style="color:var(--dim)">${s.client_email||''}${s.client_phone?' · '+s.client_phone:''}</span>${s.notes?'<br><span style="color:var(--dim)">'+s.notes+'</span>':''}`
+      : '';
+    tr.innerHTML=`
+      <td>${fmtDate(s.date)}</td>
+      <td>${fmtTime(s.start_time)}–${fmtTime(s.end_time)}</td>
+      <td><span class="tag ${s.status}">${s.status}</span></td>
+      <td>${clientHtml}</td>
+      <td></td>
+    `;
+    const actionTd=tr.lastElementChild;
+    const delBtn=document.createElement('button');
+    delBtn.className='btn-danger';
+    delBtn.textContent=s.status==='booked'?'Cancel':'Delete';
+    delBtn.addEventListener('click',()=>deleteSlot(s.id));
+    actionTd.appendChild(delBtn);
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  slotsTableWrap.innerHTML='';
+  slotsTableWrap.appendChild(table);
+}
+
+async function deleteSlot(id){
+  const {error}=await sb.from('slots').delete().eq('id',id);
+  if(error){
+    slotsTableWrap.insertAdjacentHTML('afterbegin','<div class="msg error">'+error.message+'</div>');
+    return;
+  }
+  loadSlots();
+}
+
+(async function init(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(session){showApp()}else{showLogin()}
+})();
+</script>
+</body>
+</html>
