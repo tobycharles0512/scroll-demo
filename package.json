@@ -1,0 +1,9 @@
+{
+  "name": "charles-digital-site",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "tsdav": "^2.3.3",
+    "@supabase/supabase-js": "^2.116.0"
+  }
+}
