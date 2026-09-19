@@ -81,7 +81,7 @@ td{padding:.7rem .6rem;border-bottom:1px solid var(--border);vertical-align:top}
       <div class="row">
         <div class="field">
           <label for="slotDate">Date</label>
-          <input type="date" id="slotDate" required>
+          <select id="slotDate" required></select>
         </div>
         <div class="field">
           <label for="slotStart">Start time</label>
@@ -91,6 +91,13 @@ td{padding:.7rem .6rem;border-bottom:1px solid var(--border);vertical-align:top}
           <label for="slotEnd">End time</label>
           <input type="time" id="slotEnd" required>
         </div>
+      </div>
+      <div class="field">
+        <label style="display:flex;align-items:center;gap:.4rem"><input type="checkbox" id="slotRepeat" style="width:auto">Repeat weekly</label>
+      </div>
+      <div class="field" id="repeatWeeksField" style="display:none">
+        <label for="repeatWeeks">For how many weeks (including this one)</label>
+        <input type="number" id="repeatWeeks" min="2" max="52" value="4">
       </div>
       <button type="submit" class="btn" id="addBtn">Add Slot</button>
     </form>
@@ -117,9 +124,41 @@ const addForm=document.getElementById('addForm');
 const addMsg=document.getElementById('addMsg');
 const addBtn=document.getElementById('addBtn');
 const slotsTableWrap=document.getElementById('slotsTableWrap');
+const slotDateSelect=document.getElementById('slotDate');
+const slotRepeat=document.getElementById('slotRepeat');
+const repeatWeeksField=document.getElementById('repeatWeeksField');
+const repeatWeeks=document.getElementById('repeatWeeks');
 
 function fmtDate(d){return new Date(d+'T00:00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'})}
 function fmtTime(t){return t.slice(0,5)}
+
+function toISODate(d){
+  const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+function addDays(iso,days){
+  const [y,m,d]=iso.split('-').map(Number);
+  return toISODate(new Date(y,m-1,d+days));
+}
+function populateDateOptions(){
+  const prev=slotDateSelect.value;
+  slotDateSelect.innerHTML='';
+  const now=new Date();
+  for(let i=0;i<60;i++){
+    const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+i);
+    const iso=toISODate(d);
+    const opt=document.createElement('option');
+    opt.value=iso;
+    opt.textContent=d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+    slotDateSelect.appendChild(opt);
+  }
+  if(prev)slotDateSelect.value=prev;
+}
+populateDateOptions();
+
+slotRepeat.addEventListener('change',()=>{
+  repeatWeeksField.style.display=slotRepeat.checked?'':'none';
+});
 
 async function showApp(){
   loginBox.style.display='none';
@@ -156,19 +195,27 @@ addForm.addEventListener('submit',async e=>{
   e.preventDefault();
   addBtn.disabled=true;
   addMsg.innerHTML='';
-  const {error}=await sb.from('slots').insert({
-    date:document.getElementById('slotDate').value,
-    start_time:document.getElementById('slotStart').value,
-    end_time:document.getElementById('slotEnd').value,
-    status:'open'
-  });
+
+  const baseDate=slotDateSelect.value;
+  const startTime=document.getElementById('slotStart').value;
+  const endTime=document.getElementById('slotEnd').value;
+  const weeks=slotRepeat.checked?Math.max(2,parseInt(repeatWeeks.value,10)||2):1;
+
+  const rows=[];
+  for(let i=0;i<weeks;i++){
+    rows.push({date:addDays(baseDate,i*7),start_time:startTime,end_time:endTime,status:'open'});
+  }
+
+  const {error}=await sb.from('slots').insert(rows);
   addBtn.disabled=false;
   if(error){
     addMsg.innerHTML='<div class="msg error">'+error.message+'</div>';
     return;
   }
   addForm.reset();
-  addMsg.innerHTML='<div class="msg success">Slot added.</div>';
+  populateDateOptions();
+  repeatWeeksField.style.display='none';
+  addMsg.innerHTML='<div class="msg success">'+(rows.length>1?rows.length+' slots added.':'Slot added.')+'</div>';
   loadSlots();
 });
 
