@@ -186,13 +186,14 @@ nav.hide{transform:translateY(-100%)}
 #portfolio{padding:9rem 8%;overflow:hidden}
 .port-header{max-width:700px;margin:0 auto 4.5rem;text-align:center}
 .port-header p{font-size:.93rem;color:var(--dim);line-height:1.75;font-weight:300;margin-top:1rem}
-.port-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.8rem;max-width:900px;margin:0 auto}
+.port-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.8rem;max-width:1320px;margin:0 auto}
 @media(max-width:660px){.port-grid{grid-template-columns:1fr}}
 .port-card{background:var(--card);backdrop-filter:blur(18px);border:1px solid var(--border);border-radius:18px;overflow:hidden;cursor:pointer;transition:border-color .4s;will-change:transform,opacity;position:relative}
 .port-card:hover{border-color:rgba(47,123,255,.35)}
 .port-preview{height:240px;position:relative;overflow:hidden;border-bottom:1px solid var(--border-soft)}
 .port-preview iframe{width:200%;height:200%;transform:scale(.5);transform-origin:top left;border:none;pointer-events:none}
 .prem-badge{position:absolute;top:.9rem;left:.9rem;background:linear-gradient(135deg,var(--orange),var(--pink));color:#fff;font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.28rem .75rem;border-radius:20px;z-index:2}
+.demo-badge{position:absolute;top:.9rem;left:.9rem;background:linear-gradient(135deg,#4b5563,#1f2937);color:#fff;font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.28rem .75rem;border-radius:20px;z-index:2}
 .port-info{padding:1.4rem 1.7rem 1.8rem}
 .port-type{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--neon);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.6rem}
 .port-info h3{font-size:1.1rem;font-weight:700;margin-bottom:.5rem}
@@ -557,6 +558,19 @@ footer p{font-size:.72rem;color:var(--dim)}
         <div class="port-tags">
           <span class="ptag pt1">Web App</span><span class="ptag pt2">Custom Platform</span>
           <span class="ptag pt3">Modern UI/UX</span><span class="ptag pt5">Premium Build</span>
+        </div>
+      </div>
+    </div>
+    <div class="port-card tilt" id="pc-kingfisher" onclick="openPreview('kingfisher')">
+      <div class="demo-badge">Concept Demo</div>
+      <div class="port-preview" id="prev-kingfisher"></div>
+      <div class="port-info">
+        <div class="port-type">Concept Demo &middot; Trade &amp; Local Business</div>
+        <h3>Kingfisher Plumbing</h3>
+        <p><strong style="color:var(--text)">Not a real business</strong> — a concept site built to show what we can create for a local trade company: bold visuals, smooth interactions, and a fully custom feel.</p>
+        <div class="port-tags">
+          <span class="ptag pt4">Concept Demo</span><span class="ptag pt1">Trade Business</span>
+          <span class="ptag pt3">Interactive Design</span>
         </div>
       </div>
     </div>
@@ -1033,11 +1047,16 @@ document.querySelectorAll('.tilt').forEach(el=>{
 });
 
 /* ══ PORTFOLIO PREVIEWS ══ */
+const previewSites={
+  forge:{url:'https://the-forge-somerset.vercel.app/',title:'The Forge Somerset Preview'},
+  partico:{url:'https://partico.app',title:'Partico Live Preview',fallback:true},
+  kingfisher:{url:'https://kingfisher-plumbing-demo.vercel.app',title:'Kingfisher Plumbing Concept Demo Preview'}
+};
 function loadPreviews(){
-  const f=document.getElementById('prev-forge');
-  const p=document.getElementById('prev-partico');
-  if(f){const i=document.createElement('iframe');i.src='https://the-forge-somerset.vercel.app/';i.loading='lazy';i.title='The Forge Somerset Preview';f.appendChild(i)}
-  if(p){const i=document.createElement('iframe');i.src='https://partico.app';i.loading='lazy';i.title='Partico Live Preview';p.appendChild(i)}
+  Object.keys(previewSites).forEach(site=>{
+    const el=document.getElementById('prev-'+site);
+    if(el){const i=document.createElement('iframe');i.src=previewSites[site].url;i.loading='lazy';i.title=previewSites[site].title;el.appendChild(i)}
+  });
 }
 loadPreviews();
 
@@ -1047,13 +1066,12 @@ function openPreview(site){
   const frame=document.getElementById('prevFrame');
   const ex=inner.querySelector('.partico-fallback');if(ex)ex.remove();
   frame.style.display='block';
-  if(site==='partico'){
-    frame.src='https://partico.app';
-    const fb=document.createElement('a');fb.className='partico-fallback';fb.href='https://partico.app';fb.target='_blank';fb.rel='noopener';
-    fb.innerHTML='Visit partico.app ↗';
+  const cfg=previewSites[site];
+  frame.src=cfg.url;
+  if(cfg.fallback){
+    const fb=document.createElement('a');fb.className='partico-fallback';fb.href=cfg.url;fb.target='_blank';fb.rel='noopener';
+    fb.innerHTML='Visit '+cfg.url.replace(/^https:\/\//,'').replace(/\/$/,'')+' ↗';
     inner.appendChild(fb);
-  } else {
-    frame.src='https://the-forge-somerset.vercel.app/';
   }
   modal.classList.add('open');document.body.style.overflow='hidden';
 }
