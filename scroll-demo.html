@@ -20,13 +20,13 @@
   --neon:#2F7BFF; --electric:#16C7AE; --pink:#8C6BFF;
   --orange:#6D4FE0; --cyan:#5FE3C9;
   --card:hsla(226,32%,15%,.78); --card2:hsla(226,30%,21%,.78);
-  --text:#F4F6FB; --dim:#A7AFC4;
+  --text:#F4F6FB; --dim:#B6BED2;
   --border:rgba(255,255,255,.12); --border-soft:rgba(255,255,255,.07);
   --glow-g:0 0 35px rgba(47,123,255,.28);
   --glow-p:0 0 35px rgba(22,199,174,.24);
   /* black → white scroll ramp, boundary colours between sections */
-  --z0:hsl(226,52%,3%); --z1:hsl(226,50%,5%); --z2:hsl(226,47%,8%);
-  --z3:hsl(225,43%,13%); --z4:hsl(225,38%,20%); --z5:hsl(223,30%,38%);
+  --z0:hsl(230,42%,11%); --z1:hsl(229,40%,13%); --z2:hsl(228,38%,16%);
+  --z3:hsl(226,35%,21%); --z4:hsl(225,32%,28%); --z5:hsl(223,28%,41%);
   --z6:hsl(221,22%,60%); --z7:hsl(219,17%,72%); --z8:hsl(217,13%,82%);
   --z9:hsl(215,10%,90%); --z10:hsl(213,8%,96%);
   /* aurora curtain gradients — green base, magenta/violet mid, blue top */
@@ -45,7 +45,7 @@ body{font-family:'Sora',sans-serif;color:var(--text);overflow-x:hidden;cursor:no
 
 /* ── PAGE FADE + AURORA (northern lights) ── */
 .page-fade{position:fixed;inset:0;z-index:-2;background:var(--z0);pointer-events:none}
-.aurora-stars{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.5;
+.aurora-stars{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.8;
   background-image:
     radial-gradient(1.4px 1.4px at 8% 18%,#fff 100%,transparent),
     radial-gradient(1px 1px at 22% 8%,#fff 100%,transparent),
@@ -81,6 +81,10 @@ body{font-family:'Sora',sans-serif;color:var(--text);overflow-x:hidden;cursor:no
 .ray.r9{left:89%;width:8vw;height:133%;--rot:9deg;--dur:26s;--del:-5s;background:var(--ray-c)}
 .ray.r10{left:-5%;width:8vw;height:136%;--rot:-9deg;--dur:28s;--del:-18s;background:var(--ray-a)}
 @media(prefers-reduced-motion:reduce){.ray{animation:none}}
+/* WebGL curtains replace the CSS rays when available */
+.aurora-gl{position:absolute;inset:0;width:100%;height:100%;display:none}
+.aurora.gl .aurora-gl{display:block}
+.aurora.gl .aurora-layer{display:none}
 
 /* ── CURSOR ── */
 .cur-dot{width:10px;height:10px;background:var(--neon);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;mix-blend-mode:difference}
@@ -99,8 +103,8 @@ body{font-family:'Sora',sans-serif;color:var(--text);overflow-x:hidden;cursor:no
 
 /* ── NAV ── */
 nav{position:fixed;top:0;width:100%;z-index:1000;padding:1.3rem 5%;display:flex;justify-content:space-between;align-items:center;transition:transform .5s ease,background .5s,backdrop-filter .5s}
-nav::after{content:'';position:absolute;left:0;right:0;top:100%;height:56px;background:linear-gradient(to bottom,rgba(8,10,17,.5),transparent);opacity:0;transition:opacity .5s;pointer-events:none}
-nav.scrolled{background:rgba(8,10,17,.72);backdrop-filter:blur(24px)}
+nav::after{content:'';position:absolute;left:0;right:0;top:100%;height:56px;background:linear-gradient(to bottom,rgba(12,17,33,.5),transparent);opacity:0;transition:opacity .5s;pointer-events:none}
+nav.scrolled{background:rgba(12,17,33,.72);backdrop-filter:blur(24px)}
 nav.scrolled::after{opacity:1}
 nav.hide{transform:translateY(-100%)}
 .nav-logo{font-family:'Space Mono',monospace;font-size:1rem;font-weight:700;color:var(--neon);text-decoration:none;display:flex;align-items:center;gap:.6rem}
@@ -400,6 +404,30 @@ footer p{font-size:.72rem;color:var(--dim)}
 
 /* ── 3D TILT ── */
 .tilt{transform-style:preserve-3d}
+/* ── SHOWREEL INTRO: full-screen reel that pulls back into a TV on scroll ── */
+#reel{height:100vh;position:relative;overflow:hidden}
+#reel .reel-bg{position:absolute;inset:0;background:#0B0C11}
+#reel .tv-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+#reel .tv{position:relative;width:var(--tvw);will-change:transform}
+#reel .tv-body{position:relative;background:linear-gradient(160deg,#2A2E3A,#111319 55%,#1B1E27);border-radius:14px;padding:11px 11px 0;
+  box-shadow:0 0 0 1px rgba(255,255,255,.07) inset,0 40px 90px rgba(0,0,0,.55),0 0 120px rgba(47,123,255,.22)}
+#reel .tv-screen{position:relative;aspect-ratio:16/9;background:#05060A;border-radius:5px;overflow:hidden}
+#reel .tv-screen video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.6}
+#reel .tv-glare{position:absolute;inset:0;pointer-events:none;opacity:0;
+  background:linear-gradient(115deg,rgba(255,255,255,.13) 0%,rgba(255,255,255,.04) 28%,transparent 42%)}
+#reel .tv-shade{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(11,12,17,.7) 0,transparent 14%),linear-gradient(to top,rgba(11,12,17,.85) 0,rgba(11,12,17,.35) 30%,transparent 55%)}
+#reel .tv-chin{height:30px;display:flex;align-items:center;justify-content:center;gap:.5rem;
+  font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.32em;text-transform:uppercase;color:#7D8499}
+#reel .tv-led{position:absolute;right:20px;bottom:12px;width:5px;height:5px;border-radius:50%;background:#ff4d6d;box-shadow:0 0 8px #ff4d6d}
+#reel .tv-neck{width:9%;height:34px;margin:0 auto;background:linear-gradient(90deg,#14161D,#2A2E3A,#14161D)}
+#reel .tv-foot{width:34%;height:9px;margin:0 auto;border-radius:6px 6px 3px 3px;background:linear-gradient(#2A2E3A,#111319);
+  box-shadow:0 18px 40px rgba(0,0,0,.6)}
+#reel .reel-scroll{position:absolute;z-index:2;bottom:2.4rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.8rem;
+  text-decoration:none;font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:#F4F6FB}
+#reel .reel-arrow{width:44px;height:44px;border:1.5px solid rgba(244,246,251,.7);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;animation:reelBob 1.8s ease-in-out infinite}
+@keyframes reelBob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+@media(prefers-reduced-motion:reduce){#reel .reel-arrow{animation:none}}
 </style>
 </head>
 <body>
@@ -407,6 +435,7 @@ footer p{font-size:.72rem;color:var(--dim)}
 <div class="page-fade"></div>
 <div class="aurora-stars" aria-hidden="true"></div>
 <div class="aurora" aria-hidden="true">
+  <canvas class="aurora-gl"></canvas>
   <div class="aurora-layer"><span class="ray r1"></span><span class="ray r2"></span><span class="ray r3"></span></div>
   <div class="aurora-layer"><span class="ray r4"></span><span class="ray r5"></span><span class="ray r6"></span></div>
   <div class="aurora-layer"><span class="ray r7"></span><span class="ray r8"></span></div>
@@ -439,6 +468,26 @@ footer p{font-size:.72rem;color:var(--dim)}
 <!-- ════════════════════════════
      HERO
 ════════════════════════════ -->
+<section id="reel" aria-label="Charles Digital showreel">
+  <div class="reel-bg"></div>
+  <div class="tv-stage">
+    <div class="tv">
+      <div class="tv-body">
+        <div class="tv-screen">
+          <video src="reel.mp4" poster="reel-poster.jpg" autoplay muted loop playsinline preload="auto"></video>
+          <div class="tv-shade"></div>
+          <div class="tv-glare"></div>
+        </div>
+        <div class="tv-chin">Charles Digital</div>
+        <span class="tv-led"></span>
+      </div>
+      <div class="tv-neck"></div>
+      <div class="tv-foot"></div>
+    </div>
+  </div>
+  <a href="#hero" class="reel-scroll">Scroll to explore<span class="reel-arrow">↓</span></a>
+</section>
+
 <section id="hero">
   <canvas id="three-canvas"></canvas>
   <div class="hero-inner">
@@ -889,6 +938,40 @@ footer p{font-size:.72rem;color:var(--dim)}
 <script>
 gsap.registerPlugin(ScrollTrigger);
 
+/* ══ SHOWREEL → TV PULL-BACK ══
+   The TV is laid out at its final size; at progress 0 it is scaled up around the
+   screen's centre so the screen exactly fills the viewport (whole video visible). */
+(function(){
+  const reel=document.getElementById('reel');
+  if(!reel)return;
+  const tv=reel.querySelector('.tv'),screen=reel.querySelector('.tv-screen');
+  const vid=screen.querySelector('video'),shade=reel.querySelector('.tv-shade');
+  const glare=reel.querySelector('.tv-glare'),bg=reel.querySelector('.reel-bg'),cue=reel.querySelector('.reel-scroll');
+  let s0=1,dy=0;
+  function layout(){
+    const w=Math.min(innerWidth*.72,innerHeight*.62*16/9);
+    reel.style.setProperty('--tvw',w+'px');
+    gsap.set(tv,{clearProps:'transform'});
+    const tr=tv.getBoundingClientRect(),sr=screen.getBoundingClientRect();
+    const ox=sr.left-tr.left+sr.width/2,oy=sr.top-tr.top+sr.height/2;
+    s0=Math.min(innerWidth/sr.width,innerHeight/sr.height);
+    dy=innerHeight/2-(sr.top+sr.height/2);
+    gsap.set(tv,{transformOrigin:ox+'px '+oy+'px'});
+  }
+  layout();
+  const tl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{
+    trigger:reel,start:'top top',end:'+=140%',pin:true,scrub:.8,
+    refreshPriority:1,invalidateOnRefresh:true,onRefreshInit:layout
+  }});
+  tl.fromTo(tv,{y:()=>dy,scale:()=>s0},{y:0,scale:1,ease:'power2.inOut',duration:.7},0)
+    .to(cue,{opacity:0,duration:.1},0)
+    .fromTo(bg,{opacity:1},{opacity:0,duration:.5},.1)
+    .fromTo(vid,{opacity:.6},{opacity:1,duration:.5},.1)
+    .fromTo(shade,{opacity:1},{opacity:0,duration:.4},.1)
+    .fromTo(glare,{opacity:0},{opacity:1,duration:.4},.35)
+    .to({},{duration:.3});   // short hold on the full TV before the page carries on
+})();
+
 /* ══ CURSOR ══ */
 const curDot=document.getElementById('curDot'),curRing=document.getElementById('curRing');
 let mx=window.innerWidth/2,my=window.innerHeight/2,rx=mx,ry=my;
@@ -1172,8 +1255,8 @@ function calcUpdate(){
   const speeds=[0.045,0.075,0.025,0.06];
   // one HSL stop per section start, plus a final stop at the very bottom of the page
   const stops=[
-    [226,52,3],[226,50,5],[226,47,8],[225,43,13],[225,38,20],
-    [223,30,38],[221,22,60],[219,17,72],[217,13,82],[215,10,90],[213,8,96]
+    [230,42,11],[229,40,13],[228,38,16],[226,35,21],[225,32,28],
+    [223,28,41],[221,22,60],[219,17,72],[217,13,82],[215,10,90],[213,8,96]
   ];
   const ids=['hero','statement','hscroll','portfolio','pricing','calculator','stats','process','endcta'];
   let offsets=[];
@@ -1202,14 +1285,98 @@ function calcUpdate(){
     const ft2=Math.min(Math.max((sy-fadeStart)/Math.max(fadeEnd-fadeStart,1),0),1);
     const a=lerp(1,0.04,ft2);
     aurora.style.opacity=String(a);
-    stars.style.opacity=String(lerp(.5,0.06,ft2));
+    stars.style.opacity=String(lerp(.8,0.06,ft2));
     layers.forEach((layer,idx)=>{layer.style.transform=`translateY(${-sy*speeds[idx%speeds.length]}px)`});
   }
   function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(update)}}
   window.addEventListener('load',()=>{measure();update();});
+  if(window.ScrollTrigger)ScrollTrigger.addEventListener('refresh',()=>{measure();update();});
   window.addEventListener('resize',()=>{measure();update();});
   window.addEventListener('scroll',onScroll,{passive:true});
   measure();update();
+})();
+
+/* ══ AURORA SHADER (WebGL curtains; CSS rays stay as fallback) ══ */
+(function(){
+  const wrap=document.querySelector('.aurora');
+  const cv=wrap&&wrap.querySelector('.aurora-gl');
+  if(!cv)return;
+  const gl=cv.getContext('webgl',{alpha:false,antialias:false,depth:false,powerPreference:'low-power'});
+  if(!gl)return;
+  const vs='attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}';
+  const fs=`precision highp float;
+uniform vec2 r;uniform float t;uniform float sc;
+float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
+  return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
+float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*n(p);p*=2.03;a*=.5;}return v;}
+vec3 curtain(vec2 p,float sd,float base,float amp,float br){
+  float w=fbm(vec2(p.x*1.1+sd,t*.035+sd))*2.-1.;
+  float y0=base+w*amp+.045*sin(p.x*2.3+t*.12+sd);
+  float d=p.y-y0;
+  float rays=n(vec2(p.x*26.+w*7.+sd*9.,t*.3+sd));
+  rays=.3+.7*pow(rays,1.5);
+  rays*=.7+.3*n(vec2(p.x*64.+w*14.,t*.55+sd));
+  float lower=smoothstep(-.02,.012,d);
+  float prof=lower*exp(-max(d,0.)*3.6);
+  float pulse=.55+.45*n(vec2(p.x*2.6-t*.22,sd));
+  float hgt=clamp(d/.5,0.,1.);
+  vec3 c=mix(vec3(.2,1.,.6),vec3(.09,.82,.72),smoothstep(0.,.14,hgt));
+  c=mix(c,vec3(.55,.44,1.),smoothstep(.14,.55,hgt));
+  c=mix(c,vec3(.9,.45,.9),smoothstep(.55,.95,hgt)*.55);
+  c+=vec3(.35,.6,.45)*exp(-max(d,0.)*55.)*lower;
+  vec3 under=vec3(.1,.7,.55)*exp(min(d,0.)*7.)*(1.-lower)*.22;
+  return (c*prof*rays+under)*pulse*br;
+}
+void main(){
+  vec2 uv=gl_FragCoord.xy/r;
+  vec2 p=vec2(uv.x*r.x/r.y,uv.y-sc);
+  vec3 col=curtain(p,1.3,.22,.15,1.25)+curtain(p,7.7,.42,.12,.9)+curtain(p,15.1,.6,.1,.6);
+  col+=vec3(.04,.11,.16)*(1.-uv.y)*.8;
+  col=1.-exp(-col*1.45);
+  gl_FragColor=vec4(col,1.);
+}`;
+  function sh(type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);return gl.getShaderParameter(s,gl.COMPILE_STATUS)?s:null}
+  const v=sh(gl.VERTEX_SHADER,vs),f=sh(gl.FRAGMENT_SHADER,fs);
+  if(!v||!f)return;
+  const pr=gl.createProgram();gl.attachShader(pr,v);gl.attachShader(pr,f);gl.linkProgram(pr);
+  if(!gl.getProgramParameter(pr,gl.LINK_STATUS))return;
+  gl.useProgram(pr);
+  const buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  const loc=gl.getAttribLocation(pr,'a');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+  const uR=gl.getUniformLocation(pr,'r'),uT=gl.getUniformLocation(pr,'t'),uS=gl.getUniformLocation(pr,'sc');
+  wrap.classList.add('gl');
+  // render at half CSS resolution — the curtains are soft, upscaling is invisible
+  function resize(){
+    const k=0.5*Math.min(window.devicePixelRatio||1,1.5);
+    cv.width=Math.max(1,Math.round(innerWidth*k));cv.height=Math.max(1,Math.round(innerHeight*k));
+    gl.viewport(0,0,cv.width,cv.height);
+  }
+  resize();window.addEventListener('resize',resize);
+  const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const t0=performance.now();
+  function draw(now){
+    gl.uniform2f(uR,cv.width,cv.height);
+    gl.uniform1f(uT,still?40.:(now-t0)/1000+40.);
+    gl.uniform1f(uS,window.scrollY*0.00025);
+    gl.drawArrays(gl.TRIANGLES,0,3);
+  }
+  function frame(now){
+    // skip work once scrolled past the aurora or the tab is hidden
+    if(!document.hidden&&parseFloat(wrap.style.opacity||'1')>0.05)draw(now);
+    if(!still)requestAnimationFrame(frame);
+  }
+  if(still){draw(t0);window.addEventListener('scroll',()=>requestAnimationFrame(draw),{passive:true});}
+  else requestAnimationFrame(frame);
+})();
+
+/* ══ SHOWREEL: play at a calmer pace ══ */
+(function(){
+  const v=document.querySelector('#reel video');
+  if(!v)return;
+  const slow=()=>{v.defaultPlaybackRate=0.8;v.playbackRate=0.8};
+  slow();v.addEventListener('loadedmetadata',slow);v.addEventListener('play',slow);
 })();
 
 /* ══ PRICING FIREWORKS ══ */
