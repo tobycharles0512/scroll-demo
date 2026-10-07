@@ -610,6 +610,19 @@ footer p{font-size:.72rem;color:var(--dim)}
         </div>
       </div>
     </div>
+    <div class="port-card tilt" id="pc-motion" onclick="openPreview('motion')">
+      <div class="prem-badge">✦ New Build</div>
+      <div class="port-preview" id="prev-motion"></div>
+      <div class="port-info">
+        <div class="port-type">Video Studio &middot; Motion Design</div>
+        <h3>Motion Charles</h3>
+        <p>A studio site for short business videos: a showreel that pulls back into a monitor as you scroll, a sideways-scrolling reel and a live quote builder.</p>
+        <div class="port-tags">
+          <span class="ptag pt1">Motion Design</span><span class="ptag pt2">Video Studio</span>
+          <span class="ptag pt3">Scroll Animation</span>
+        </div>
+      </div>
+    </div>
     <div class="port-card tilt" id="pc-kingfisher" onclick="openPreview('kingfisher')">
       <div class="demo-badge">Concept Demo</div>
       <div class="port-preview" id="prev-kingfisher"></div>
@@ -1146,6 +1159,7 @@ document.querySelectorAll('.tilt').forEach(el=>{
 const previewSites={
   forge:{url:'https://the-forge-somerset.vercel.app/',title:'The Forge Somerset Preview'},
   partico:{url:'https://partico.app',title:'Partico Live Preview',fallback:true},
+  motion:{url:'https://motion-charles.vercel.app/',title:'Motion Charles Live Preview'},
   kingfisher:{url:'https://kingfisher-plumbing-demo.vercel.app',title:'Kingfisher Plumbing Concept Demo Preview'},
   kingfisherBasic:{url:'https://kingfisher-plumbing-basic.vercel.app',title:'Kingfisher Plumbing Starter Concept Demo Preview'}
 };
